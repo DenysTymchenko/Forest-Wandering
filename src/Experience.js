@@ -11,10 +11,11 @@ import World from './World/World.js';
 let instance = null;
 
 export default class Experience {
-  constructor(canvas) {
+  constructor(hint, canvas) {
     if (instance) return instance;
     instance = this;
 
+    this.hint = hint;
     this.canvas = canvas;
     this.sizes = new Sizes();
     this.time = new Time();
@@ -24,8 +25,22 @@ export default class Experience {
     this.resources = new Resources();
     this.world = new World();
 
+    window.addEventListener('click', () => this.camera.controls.lock());
+
     this.sizes.on('resize', () => this.resize());
     this.time.on('tick', () => this.update());
+    this.camera.on('lock', () => this.hideHint());
+    this.camera.on('unlock', () => this.showHint());
+  }
+
+  hideHint() {
+    this.hint.style.display = 'none';
+    this.camera.controls.lock();
+  }
+
+  showHint() {
+    this.hint.style.display = 'flex';
+    this.camera.controls.unlock();
   }
 
   resize() {
@@ -34,7 +49,7 @@ export default class Experience {
   }
 
   update() {
-    this.camera.update();
+    this.camera.move();
     this.renderer.update();
   }
 }
