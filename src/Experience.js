@@ -3,6 +3,10 @@ import Sizes from './Utils/Sizes.js';
 import Time from './Utils/Time.js';
 import Camera from './Camera.js';
 import Renderer from './Renderer.js';
+import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import Resources from './Utils/Resources.js';
+import World from './World/World.js';
 
 let instance = null;
 
@@ -17,6 +21,8 @@ export default class Experience {
     this.scene = new THREE.Scene();
     this.camera = new Camera();
     this.renderer = new Renderer();
+    this.resources = new Resources();
+    this.world = new World();
 
     this.sizes.on('resize', () => this.resize());
     this.time.on('tick', () => this.update());
@@ -28,6 +34,7 @@ export default class Experience {
   }
 
   update() {
+    this.camera.update();
     this.renderer.update();
   }
 }
