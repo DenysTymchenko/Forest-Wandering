@@ -17,18 +17,15 @@ export default class Environment {
 
   setDirectionalLight() {
     this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-    this.directionalLight.castShadow = true;
-    this.directionalLight.position.set(-5, 8, 0);
+    this.directionalLight.position.set(-5, 5, 0);
     this.directionalLight.target.position.set(0, 0, 0);
 
-    this.directionalLight.shadow.mapSize.set(1024, 1024);
-
-    this.directionalLight.shadow.camera.top = 20;
-    this.directionalLight.shadow.camera.bottom = -15;
-    this.directionalLight.shadow.camera.right = 20;
-    this.directionalLight.shadow.camera.left = -20;
-    this.directionalLight.shadow.camera.far = 20;
-    this.directionalLight.shadow.camera.near = -5;
+    this.directionalLight.shadow.camera.top = 0;
+    this.directionalLight.shadow.camera.bottom = 0;
+    this.directionalLight.shadow.camera.right = 0;
+    this.directionalLight.shadow.camera.left = 0;
+    this.directionalLight.shadow.camera.far = 0;
+    this.directionalLight.shadow.camera.near = 0;
 
     this.scene.add(this.directionalLight);
   }
