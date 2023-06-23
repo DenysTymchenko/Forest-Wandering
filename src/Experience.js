@@ -3,10 +3,9 @@ import Sizes from './Utils/Sizes.js';
 import Time from './Utils/Time.js';
 import Camera from './Camera.js';
 import Renderer from './Renderer.js';
-import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import Resources from './Utils/Resources.js';
 import World from './World/World.js';
+import Raycaster from './Raycaster.js';
 
 let instance = null;
 
@@ -24,6 +23,7 @@ export default class Experience {
     this.renderer = new Renderer();
     this.resources = new Resources();
     this.world = new World();
+    this.raycaster = new Raycaster();
 
     window.addEventListener('click', () => this.camera.controls.lock());
 
@@ -49,7 +49,8 @@ export default class Experience {
   }
 
   update() {
-    this.camera.move();
+    if (this.camera.controls.isLocked) this.camera.move();
+    this.raycaster.castRay();
     this.renderer.update();
   }
 }

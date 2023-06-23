@@ -3,7 +3,7 @@ import EventEmitter from './Utils/EventEmmiter.js';
 import Experience from './Experience.js';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
-export default class Camera extends EventEmitter{
+export default class Camera extends EventEmitter {
   constructor() {
     super();
     this.experience = new Experience();
@@ -27,7 +27,7 @@ export default class Camera extends EventEmitter{
       0.1,
       100
     );
-    this.instance.position.set(0, 8, 0);
+    this.instance.position.set(0, 7, 0);
 
     this.scene.add(this.instance);
   }
@@ -104,5 +104,9 @@ export default class Camera extends EventEmitter{
   resize() {
     this.instance.aspect = this.sizes.width / this.sizes.height;
     this.instance.updateProjectionMatrix();
+  }
+
+  updatePosition(vec3) {
+    this.instance.position.set(vec3.x, vec3.y, vec3.z);
   }
 }
