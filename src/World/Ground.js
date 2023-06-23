@@ -11,7 +11,7 @@ export default class Ground {
 
   setInstance() {
     this.instance = this.resources.items['ground'].scene;
-    this.instance.scale.setScalar(20)
+    this.instance.scale.setScalar(20);
     this.scene.add(this.instance);
   }
 }

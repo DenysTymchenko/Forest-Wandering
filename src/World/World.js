@@ -1,6 +1,7 @@
 import Experience from '../Experience.js';
 import Environment from './Environment.js';
 import Ground from './Ground.js';
+import Water_ from './Water.js';
 
 export default class World {
   constructor() {
@@ -11,6 +12,7 @@ export default class World {
     this.resources.on('loaded', () => {
       this.environment = new Environment();
       this.ground = new Ground();
+      this.water = new Water_();
     })
   }
 }
