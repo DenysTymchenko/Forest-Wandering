@@ -64,6 +64,10 @@ export default class Camera extends EventEmitter {
         case 'ArrowRight':
           this.controls.pressedKeys.D = true;
           break;
+
+        case 'Space':
+          this.controls.pressedKeys.Space = true;
+          break;
       }
     }
   }
@@ -99,7 +103,13 @@ export default class Camera extends EventEmitter {
     if (this.controls.pressedKeys.A) this.controls.moveRight(-0.5);
     if (this.controls.pressedKeys.S) this.controls.moveForward(-0.5);
     if (this.controls.pressedKeys.D) this.controls.moveRight(0.5);
+    if (this.controls.pressedKeys.Space) {
+      setTimeout(() => {
+        this.controls.pressedKeys.Space = false;
+      }, 150)
+    }
   }
+
 
   resize() {
     this.instance.aspect = this.sizes.width / this.sizes.height;

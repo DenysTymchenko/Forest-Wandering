@@ -5,6 +5,7 @@ export default class Raycaster {
   constructor() {
     this.experience = new Experience();
     this.camera = this.experience.camera;
+    this.controls = this.camera.controls;
     this.world = this.experience.world;
   }
 
@@ -26,7 +27,7 @@ export default class Raycaster {
   setNewCameraPosition() {
     if (this.camera.controls.isLocked && this.world.ground) {
       const intersect = this.instance.intersectObject(this.world.ground.instance)[0];
-      intersect.point.y += 7;
+      this.controls.pressedKeys.Space ? intersect.point.y += 14 : intersect.point.y += 7;
 
       this.camera.updatePosition(intersect.point);
     }
