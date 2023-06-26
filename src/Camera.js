@@ -14,10 +14,15 @@ export default class Camera extends EventEmitter {
     this.setInstance();
     this.setPointerLockControls();
 
+    this.isJumping = false;
+    this.jumpHeight = 30;
+    this.movementSpeed = 0.5;
+    this.peak = false;
+
     this.controls.addEventListener('lock', () => this.trigger('lock')); // If controls are locked - hint div is hidden.
     this.controls.addEventListener('unlock', () => this.trigger('unlock')); // If controls are unlocked - hint div is shown.
-    window.addEventListener('keydown', (e) => this.pressKey(e.code));
-    window.addEventListener('keyup', (e) => this.unpressKey(e.code));
+    window.addEventListener('keydown', (e) => this.controls.pressedKeys[e.code] = true);
+    window.addEventListener('keyup', (e) => this.controls.pressedKeys[e.code] = false);
   }
 
   setInstance() {
@@ -34,80 +39,32 @@ export default class Camera extends EventEmitter {
 
   setPointerLockControls() {
     this.controls = new PointerLockControls(this.instance, this.canvas);
-    this.controls.pressedKeys = {
-      W: false,
-      A: false,
-      S: false,
-      D: false,
-    }
-  }
-
-  pressKey(key) {
-    if (this.controls.isLocked) {
-      switch (key) {
-        case 'KeyW':
-        case 'ArrowUp':
-          this.controls.pressedKeys.W = true;
-          break;
-
-        case 'KeyA':
-        case 'ArrowLeft':
-          this.controls.pressedKeys.A = true;
-          break;
-
-        case 'KeyS':
-        case 'ArrowDown':
-          this.controls.pressedKeys.S = true;
-          break;
-
-        case 'KeyD':
-        case 'ArrowRight':
-          this.controls.pressedKeys.D = true;
-          break;
-
-        case 'Space':
-          this.controls.pressedKeys.Space = true;
-          break;
-      }
-    }
-  }
-
-  unpressKey(key) {
-    if (this.controls.isLocked) {
-      switch (key) {
-        case 'KeyW':
-        case 'ArrowUp':
-          this.controls.pressedKeys.W = false;
-          break;
-
-        case 'KeyA':
-        case 'ArrowLeft':
-          this.controls.pressedKeys.A = false;
-          break;
-
-        case 'KeyS':
-        case 'ArrowDown':
-          this.controls.pressedKeys.S = false;
-          break;
-
-        case 'KeyD':
-        case 'ArrowRight':
-          this.controls.pressedKeys.D = false;
-          break;
-      }
-    }
+    this.controls.pressedKeys = [];
   }
 
   move() {
-    if (this.controls.pressedKeys.W) this.controls.moveForward(0.5);
-    if (this.controls.pressedKeys.A) this.controls.moveRight(-0.5);
-    if (this.controls.pressedKeys.S) this.controls.moveForward(-0.5);
-    if (this.controls.pressedKeys.D) this.controls.moveRight(0.5);
-    if (this.controls.pressedKeys.Space) {
-      setTimeout(() => {
-        this.controls.pressedKeys.Space = false;
-      }, 150)
+    if (this.controls.pressedKeys['KeyW']) this.controls.moveForward(this.movementSpeed);
+    if (this.controls.pressedKeys['KeyA']) this.controls.moveRight(-this.movementSpeed);
+    if (this.controls.pressedKeys['KeyS']) this.controls.moveForward(-this.movementSpeed);
+    if (this.controls.pressedKeys['KeyD']) this.controls.moveRight(this.movementSpeed);
+  }
+
+  jump() {
+    let newPositionY = this.instance.position.y;
+    const groundPosition =  this.experience.raycaster.intersect?.point.y;
+
+    if (newPositionY < groundPosition) {
+      this.isJumping = false;
+      this.peak = false;
+      newPositionY = groundPosition;
     }
+
+    if (this.controls.pressedKeys['Space'] && !this.isJumping) this.isJumping = true;
+    if (this.isJumping && !this.peak && newPositionY <= this.jumpHeight) newPositionY++;
+    if (newPositionY >= this.jumpHeight) this.peak = true;
+    if(this.peak) newPositionY--;
+
+    this.instance.position.y = newPositionY;
   }
 
 

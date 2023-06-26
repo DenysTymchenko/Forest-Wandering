@@ -51,6 +51,7 @@ export default class Experience {
   update() {
     if (this.camera.controls.isLocked) {
       this.camera.move();
+      this.camera.jump();
       this.world.water.update(); // For water move
     }
 
