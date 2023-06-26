@@ -22,6 +22,7 @@ export default class World {
   setBackground() {
     const envMap = this.resources.items['background'];
     envMap.mapping = THREE.EquirectangularReflectionMapping;
+    envMap.colorSpace = THREE.SRGBColorSpace;
 
     this.scene.background = envMap;
     this.scene.environment = envMap;
