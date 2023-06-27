@@ -12,17 +12,11 @@ export default class Camera extends EventEmitter {
     this.canvas = this.experience.canvas;
 
     this.setInstance();
-    this.setPointerLockControls();
 
     this.isJumping = false;
     this.jumpHeight = 30;
     this.movementSpeed = 0.5;
     this.peak = false;
-
-    this.controls.addEventListener('lock', () => this.trigger('lock')); // If controls are locked - hint div is hidden.
-    this.controls.addEventListener('unlock', () => this.trigger('unlock')); // If controls are unlocked - hint div is shown.
-    window.addEventListener('keydown', (e) => this.controls.pressedKeys[e.code] = true);
-    window.addEventListener('keyup', (e) => this.controls.pressedKeys[e.code] = false);
   }
 
   setInstance() {
@@ -39,7 +33,12 @@ export default class Camera extends EventEmitter {
 
   setPointerLockControls() {
     this.controls = new PointerLockControls(this.instance, this.canvas);
+    this.controls.addEventListener('lock', () => this.trigger('lock')); // If controls are locked - hint div is hidden.
+    this.controls.addEventListener('unlock', () => this.trigger('unlock')); // If controls are unlocked - hint div is shown.
+
     this.controls.pressedKeys = [];
+    window.addEventListener('keydown', (e) => this.controls.pressedKeys[e.code] = true);
+    window.addEventListener('keyup', (e) => this.controls.pressedKeys[e.code] = false);
   }
 
   move() {

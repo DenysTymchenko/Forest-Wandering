@@ -11,6 +11,7 @@ export default class Resources extends EventEmitter {
     this.items = {}; // All loaded textures/models will be stored here
     this.toLoad = this.sources.length;
     this.loaded = 0;
+    this.loadingBar = document.querySelector('.loading-bar');
 
     this.SetLoaders();
     this.startLoading();
@@ -53,6 +54,18 @@ export default class Resources extends EventEmitter {
     this.items[source.name] = file;
     this.loaded++;
 
-    if (this.toLoad === this.loaded) this.trigger('loaded');
+    this.updateLoadingBar();
+  }
+
+  updateLoadingBar() {
+    const progress = this.loaded / this.toLoad;
+    this.loadingBar.style.transform = `scaleX(${progress})`;
+
+    if (progress === 1) {
+      setTimeout(() => {
+        this.loadingBar.style.height = 0;
+        this.trigger('loaded');
+      }, 500);
+    }
   }
 }

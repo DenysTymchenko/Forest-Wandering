@@ -24,7 +24,7 @@ export default class Raycaster {
   }
 
   setNewCameraPosition() {
-    if (this.camera.controls.isLocked && this.world.ground) {
+    if (this.camera.controls?.isLocked && this.world.ground) {
       this.intersect = this.instance.intersectObject(this.world.ground.instance)[0];
 
       if (this.intersect) {
