@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import EventEmitter from './Utils/EventEmmiter.js';
 import Experience from './Experience.js';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+import ControlsMovement from './Utils/ControlsMovement.js';
 
 export default class Camera extends EventEmitter {
   constructor() {
@@ -12,11 +13,6 @@ export default class Camera extends EventEmitter {
     this.canvas = this.experience.canvas;
 
     this.setInstance();
-
-    this.isJumping = false;
-    this.jumpHeight = 30;
-    this.movementSpeed = 0.5;
-    this.peak = false;
   }
 
   setInstance() {
@@ -36,52 +32,8 @@ export default class Camera extends EventEmitter {
     this.controls.addEventListener('lock', () => this.trigger('lock')); // If controls are locked - hint div is hidden.
     this.controls.addEventListener('unlock', () => this.trigger('unlock')); // If controls are unlocked - hint div is shown.
 
-    this.controls.pressedKeys = [];
-    window.addEventListener('keydown', (e) => this.controls.pressedKeys[e.code] = true);
-    window.addEventListener('keyup', (e) => this.controls.pressedKeys[e.code] = false);
+    this.controlsMovement = new ControlsMovement();
   }
-
-  move() {
-    if (this.controls.pressedKeys['KeyW']) {
-      this.controls.moveForward(this.movementSpeed);
-      this.playSoundOnWalk();
-    }
-    if (this.controls.pressedKeys['KeyA']) {
-      this.controls.moveRight(-this.movementSpeed);
-      this.playSoundOnWalk();
-    }
-    if (this.controls.pressedKeys['KeyS']) {
-      this.controls.moveForward(-this.movementSpeed);
-      this.playSoundOnWalk();
-    }
-    if (this.controls.pressedKeys['KeyD']) {
-      this.controls.moveRight(this.movementSpeed);
-      this.playSoundOnWalk();
-    }
-  }
-
-  playSoundOnWalk() {
-    this.instance.position.y < 8 ? this.resources.items['waterWalkSound'].play() : this.resources.items['grassWalkSound'].play();
-  }
-
-  jump() {
-    let newPositionY = this.instance.position.y;
-    const groundPosition = this.experience.raycaster.intersect?.point.y;
-
-    if (newPositionY < groundPosition) {
-      this.isJumping = false;
-      this.peak = false;
-      newPositionY = groundPosition;
-    }
-
-    if (this.controls.pressedKeys['Space'] && !this.isJumping) this.isJumping = true;
-    if (this.isJumping && !this.peak && newPositionY <= this.jumpHeight) newPositionY++;
-    if (newPositionY >= this.jumpHeight) this.peak = true;
-    if (this.peak) newPositionY--;
-
-    this.instance.position.y = newPositionY;
-  }
-
 
   resize() {
     this.instance.aspect = this.sizes.width / this.sizes.height;

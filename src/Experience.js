@@ -32,7 +32,6 @@ export default class Experience {
     this.camera.on('lock', () => this.hideHint());
     this.camera.on('unlock', () => this.showHint());
     this.resources.on('loaded', () => {
-      this.camera.resources = this.resources;
       this.camera.setPointerLockControls();
       this.showHint();
     });
@@ -55,8 +54,8 @@ export default class Experience {
 
   update() {
     if (this.camera.controls?.isLocked) {
-      this.camera.move();
-      this.camera.jump();
+      this.camera.controlsMovement.move();
+      this.camera.controlsMovement.jump();
       this.world.water.update(); // For water waves move
       this.world.quotes.update();
     }

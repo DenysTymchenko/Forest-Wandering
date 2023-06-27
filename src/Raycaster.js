@@ -29,7 +29,7 @@ export default class Raycaster {
 
       if (this.intersect) {
         this.intersect.point.y += 7;
-        if (!this.camera.isJumping) this.camera.updatePosition(this.intersect.point);
+        if (!this.camera.controlsMovement.isJumping) this.camera.updatePosition(this.intersect.point);
       } else {
         this.camera.updatePosition(new THREE.Vector3(0, 7, 0));
       }
