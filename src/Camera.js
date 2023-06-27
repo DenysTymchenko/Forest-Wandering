@@ -89,7 +89,6 @@ export default class Camera extends EventEmitter {
   }
 
   updatePosition(vec3) {
-    console.log(vec3.y);
     this.instance.position.set(vec3.x, vec3.y, vec3.z);
   }
 }
