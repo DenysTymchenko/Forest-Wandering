@@ -50,7 +50,7 @@ export default class Camera extends EventEmitter {
 
   jump() {
     let newPositionY = this.instance.position.y;
-    const groundPosition =  this.experience.raycaster.intersect?.point.y;
+    const groundPosition = this.experience.raycaster.intersect?.point.y;
 
     if (newPositionY < groundPosition) {
       this.isJumping = false;
@@ -61,7 +61,7 @@ export default class Camera extends EventEmitter {
     if (this.controls.pressedKeys['Space'] && !this.isJumping) this.isJumping = true;
     if (this.isJumping && !this.peak && newPositionY <= this.jumpHeight) newPositionY++;
     if (newPositionY >= this.jumpHeight) this.peak = true;
-    if(this.peak) newPositionY--;
+    if (this.peak) newPositionY--;
 
     this.instance.position.y = newPositionY;
   }

@@ -56,7 +56,8 @@ export default class Experience {
     if (this.camera.controls?.isLocked) {
       this.camera.move();
       this.camera.jump();
-      this.world.water.update(); // For water move
+      this.world.water.update(); // For water waves move
+      this.world.quotes.update();
     }
 
     this.raycaster.castRay();

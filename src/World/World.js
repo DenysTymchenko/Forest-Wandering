@@ -3,6 +3,7 @@ import Experience from '../Experience.js';
 import Environment from './Environment.js';
 import Ground from './Ground.js';
 import Water_ from './Water.js';
+import Quotes from './Quotes.js';
 
 export default class World {
   constructor() {
@@ -16,6 +17,7 @@ export default class World {
       this.environment = new Environment();
       this.ground = new Ground();
       this.water = new Water_();
+      this.quotes = new Quotes();
     })
   }
 
