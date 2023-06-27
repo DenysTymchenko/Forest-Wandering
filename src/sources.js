@@ -15,5 +15,17 @@ export default [
     name: 'background',
     type: 'texture',
     path: '/Textures/background.jpg',
+  },
+
+  {
+    name: 'grassWalkSound',
+    type: 'audio',
+    path: '/Audio/grassWalkSound.mp3',
+  },
+
+  {
+    name: 'waterWalkSound',
+    type: 'audio',
+    path: '/Audio/waterWalkSound.mp3',
   }
 ]

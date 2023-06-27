@@ -46,6 +46,10 @@ export default class Resources extends EventEmitter {
             (file) => this.sourceLoaded(source, file),
           );
           break;
+
+        case 'audio':
+          const file = new Audio(source.path);
+          this.sourceLoaded(source, file)
       }
     })
   }

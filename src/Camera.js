@@ -42,10 +42,26 @@ export default class Camera extends EventEmitter {
   }
 
   move() {
-    if (this.controls.pressedKeys['KeyW']) this.controls.moveForward(this.movementSpeed);
-    if (this.controls.pressedKeys['KeyA']) this.controls.moveRight(-this.movementSpeed);
-    if (this.controls.pressedKeys['KeyS']) this.controls.moveForward(-this.movementSpeed);
-    if (this.controls.pressedKeys['KeyD']) this.controls.moveRight(this.movementSpeed);
+    if (this.controls.pressedKeys['KeyW']) {
+      this.controls.moveForward(this.movementSpeed);
+      this.playSoundOnWalk();
+    }
+    if (this.controls.pressedKeys['KeyA']) {
+      this.controls.moveRight(-this.movementSpeed);
+      this.playSoundOnWalk();
+    }
+    if (this.controls.pressedKeys['KeyS']) {
+      this.controls.moveForward(-this.movementSpeed);
+      this.playSoundOnWalk();
+    }
+    if (this.controls.pressedKeys['KeyD']) {
+      this.controls.moveRight(this.movementSpeed);
+      this.playSoundOnWalk();
+    }
+  }
+
+  playSoundOnWalk() {
+    this.instance.position.y < 8 ? this.resources.items['waterWalkSound'].play() : this.resources.items['grassWalkSound'].play();
   }
 
   jump() {
@@ -73,6 +89,7 @@ export default class Camera extends EventEmitter {
   }
 
   updatePosition(vec3) {
+    console.log(vec3.y);
     this.instance.position.set(vec3.x, vec3.y, vec3.z);
   }
 }
