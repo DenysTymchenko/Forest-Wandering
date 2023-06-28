@@ -40,11 +40,15 @@ export default class Experience {
   hideHint() {
     this.hint.style.display = 'none';
     this.camera.controls.lock();
+
+    this.resources.items['bgMusic'].play();
   }
 
   showHint() {
     this.hint.style.display = 'flex';
     this.camera.controls.unlock();
+
+    this.resources.items['bgMusic'].pause();
   }
 
   resize() {

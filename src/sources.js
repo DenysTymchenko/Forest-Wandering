@@ -18,6 +18,12 @@ export default [
   },
 
   {
+    name: 'bgMusic',
+    type: 'audio',
+    path: '/Audio/bgMusic.mp3',
+  },
+
+  {
     name: 'grassWalkSound',
     type: 'audio',
     path: '/Audio/grassWalkSound.mp3',
@@ -27,5 +33,5 @@ export default [
     name: 'waterWalkSound',
     type: 'audio',
     path: '/Audio/waterWalkSound.mp3',
-  }
+  },
 ]
