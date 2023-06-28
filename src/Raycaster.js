@@ -9,6 +9,7 @@ export default class Raycaster {
   }
 
   castRay() {
+    //Casting a ray from camera position to the ground
     this.instance = new THREE.Raycaster();
 
     const origin = new THREE.Vector3(
@@ -24,16 +25,14 @@ export default class Raycaster {
   }
 
   setNewCameraPosition() {
-    if (this.camera.controls?.isLocked && this.world.ground) {
       this.intersect = this.instance.intersectObject(this.world.ground.instance)[0];
 
-      if (this.intersect) {
+      if (this.intersect) { // if there surface under camera
+        // setting camera 7 points higher then ground
         this.intersect.point.y += 7;
         if (!this.camera.controlsMovement.isJumping) this.camera.updatePosition(this.intersect.point);
-      } else {
-        this.camera.updatePosition(new THREE.Vector3(0, 7, 0));
+      } else { // if there is no surface under camera (user went out of ground bounds)
+        this.camera.updatePosition(new THREE.Vector3(0, 7, 0)); // teleporting back to the start
       }
-
-    }
   }
 }

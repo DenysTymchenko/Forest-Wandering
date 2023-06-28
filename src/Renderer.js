@@ -10,8 +10,8 @@ export default class Renderer {
     this.scene = this.experience.scene;
     this.camera = this.experience.camera;
 
-    this.setInstance();
-    this.setCSS2DRenderer();
+    this.setInstance(); // Scene renderer
+    this.setCSS2DRenderer(); // Quotes renderer
   }
 
   setInstance() {
@@ -23,8 +23,8 @@ export default class Renderer {
   setCSS2DRenderer() {
     this.CSS2DRenderer = new CSS2DRenderer();
     this.CSS2DRenderer.setSize(this.sizes.width, this.sizes.height);
+
     this.CSS2DRenderer.domElement.style.position = 'absolute';
-    this.CSS2DRenderer.domElement.style.top = '0px';
     this.CSS2DRenderer.domElement.style.zIndex = '0';
     document.body.appendChild(this.CSS2DRenderer.domElement);
   }

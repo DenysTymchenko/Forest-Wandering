@@ -5,10 +5,8 @@ import Experience from '../Experience';
 export default class Quotes {
   constructor() {
     this.experience = new Experience();
-    this.sizes = this.experience.sizes;
     this.scene = this.experience.scene;
     this.camera = this.experience.camera;
-    this.renderer = this.experience.renderer;
 
     this.instances = [
       {
@@ -47,10 +45,11 @@ export default class Quotes {
   }
 
   update() {
+    // Showing quote if camera staying close to it, and hide if not
     this.instances.forEach(instance => {
       const distance = this.camera.instance.position.distanceTo(instance.position);
-      
-      if(distance <= 5) {
+
+      if (distance <= 10) {
         instance.object.element.classList.remove('hidden');
         instance.object.element.classList.add('visible');
         instance.object.element.innerText = instance.quote;

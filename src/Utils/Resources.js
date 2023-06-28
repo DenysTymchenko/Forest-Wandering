@@ -8,7 +8,7 @@ export default class Resources extends EventEmitter {
   constructor() {
     super();
     this.sources = sources; // All textures and models (their names, types, and paths) are stored here
-    this.items = {}; // All loaded textures/models will be stored here
+    this.items = {}; // All loaded textures/models/audios will be stored here
     this.toLoad = this.sources.length;
     this.loaded = 0;
     this.loadingBar = document.querySelector('.loading-bar');
@@ -25,8 +25,8 @@ export default class Resources extends EventEmitter {
 
     const gltfLoader = new GLTFLoader();
     gltfLoader.setDRACOLoader(dracoLoader);
-    this.loaders.gltfLoader = gltfLoader;
 
+    this.loaders.gltfLoader = gltfLoader;
     this.loaders.textureLoader = new THREE.TextureLoader();
   }
 

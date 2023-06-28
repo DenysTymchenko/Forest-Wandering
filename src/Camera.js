@@ -32,7 +32,7 @@ export default class Camera extends EventEmitter {
     this.controls.addEventListener('lock', () => this.trigger('lock')); // If controls are locked - hint div is hidden.
     this.controls.addEventListener('unlock', () => this.trigger('unlock')); // If controls are unlocked - hint div is shown.
 
-    this.controlsMovement = new ControlsMovement();
+    this.controlsMovement = new ControlsMovement(); // move/jump logic is stored here
   }
 
   resize() {

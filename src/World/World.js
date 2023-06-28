@@ -11,7 +11,6 @@ export default class World {
     this.scene = this.experience.scene;
     this.resources = this.experience.resources;
 
-    // Starting to create meshes only after textures loading, because they will be used by them.
     this.resources.on('loaded', () => {
       this.setBackground();
       this.environment = new Environment();

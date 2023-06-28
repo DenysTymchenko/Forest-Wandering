@@ -9,7 +9,7 @@ export default class ControlsMovement {
 
     // Jumping
     this.isJumping = false;
-    this.onPeakHeigh = false;
+    this.onPeakHeight = false;
 
     // Movement
     this.controls.pressedKeys = [];
@@ -49,22 +49,22 @@ export default class ControlsMovement {
   jump() {
     let updatedPositionY = this.camera.instance.position.y;
     const groundPoint = this.experience.raycaster.intersect?.point.y;
-    const jumpHeight = groundPoint + 15;
+    const jumpTopPoint = groundPoint + 15;
 
-    if (updatedPositionY < groundPoint) {
+    if (updatedPositionY <= groundPoint) {
       this.isJumping = false;
-      this.onPeakHeigh = false;
+      this.onPeakHeight = false;
     }
 
     if (this.controls.pressedKeys['Space'] && !this.isJumping) {
       this.isJumping = true;
-
       this.resources.items['jumpSound'].currentTime = 0;
       this.resources.items['jumpSound'].play();
     }
-    if (this.isJumping && !this.onPeakHeigh) updatedPositionY++;
-    if (updatedPositionY >= jumpHeight) this.onPeakHeigh = true;
-    if (this.onPeakHeigh) updatedPositionY--;
+
+    if (this.isJumping && !this.onPeakHeight) updatedPositionY++;
+    if (updatedPositionY >= jumpTopPoint) this.onPeakHeight = true;
+    if (this.onPeakHeight) updatedPositionY--;
 
     this.camera.instance.position.y = updatedPositionY;
   }

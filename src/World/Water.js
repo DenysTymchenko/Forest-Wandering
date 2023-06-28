@@ -19,8 +19,8 @@ export default class Water_ {
 
   setNormal() {
     this.normal = this.resources.items['water-normal'];
-    this.normal.wrapS = this.normal.wrapT = THREE.RepeatWrapping;
-    console.log(this.normal);
+    this.normal.wrapS = THREE.RepeatWrapping;
+    this.normal.wrapT = THREE.RepeatWrapping;
   }
 
   setInstance() {
@@ -43,6 +43,6 @@ export default class Water_ {
   }
 
   update() {
-    this.instance.material.uniforms['time'].value += .5 / 60.0; // Makes water move
+    this.instance.material.uniforms['time'].value += 0.5 / 60; // Makes water move
   }
 }
