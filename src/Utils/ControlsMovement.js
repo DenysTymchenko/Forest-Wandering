@@ -10,6 +10,7 @@ export default class ControlsMovement {
     // Jumping
     this.isJumping = false;
     this.onPeakHeight = false;
+    this.fallSpeed = 0;
 
     // Movement
     this.controls.pressedKeys = [];
@@ -54,6 +55,7 @@ export default class ControlsMovement {
     if (updatedPositionY <= groundPoint) {
       this.isJumping = false;
       this.onPeakHeight = false;
+      this.fallSpeed = 0;
     }
 
     if (this.controls.pressedKeys['Space'] && !this.isJumping) {
@@ -64,8 +66,10 @@ export default class ControlsMovement {
 
     if (this.isJumping && !this.onPeakHeight) updatedPositionY++;
     if (updatedPositionY >= jumpTopPoint) this.onPeakHeight = true;
-    if (this.onPeakHeight) updatedPositionY--;
-
+    if (this.onPeakHeight) {
+      updatedPositionY -= this.fallSpeed;
+      if(this.fallSpeed < 1) this.fallSpeed += 0.1;
+    }
     this.camera.instance.position.y = updatedPositionY;
   }
 }
