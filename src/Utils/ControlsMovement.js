@@ -7,12 +7,13 @@ export default class ControlsMovement {
     this.controls = this.camera.controls;
     this.resources = this.experience.resources;
 
+    // Jumping
     this.isJumping = false;
-    this.jumpHeight = 30;
-    this.movementSpeed = 0.5;
-    this.peak = false;
+    this.onPeakHeigh = false;
 
+    // Movement
     this.controls.pressedKeys = [];
+    this.movementSpeed = 0.5;
     window.addEventListener('keydown', (e) => this.controls.pressedKeys[e.code] = true);
     window.addEventListener('keyup', (e) => this.controls.pressedKeys[e.code] = false);
   }
@@ -37,24 +38,34 @@ export default class ControlsMovement {
   }
 
   playSoundOnWalk() {
-    this.camera.instance.position.y < 8 ? this.resources.items['waterWalkSound'].play() : this.resources.items['grassWalkSound'].play();
+    if (!this.isJumping) {
+      // if camera.position.y is on water level - playing waterWalkSound
+      this.camera.instance.position.y < 8
+        ? this.resources.items['waterWalkSound'].play()
+        : this.resources.items['grassWalkSound'].play();
+    }
   }
 
   jump() {
-    let newPositionY = this.camera.instance.position.y;
-    const groundPosition = this.experience.raycaster.intersect?.point.y;
+    let updatedPositionY = this.camera.instance.position.y;
+    const groundPoint = this.experience.raycaster.intersect?.point.y;
+    const jumpHeight = groundPoint + 15;
 
-    if (newPositionY < groundPosition) {
+    if (updatedPositionY < groundPoint) {
       this.isJumping = false;
-      this.peak = false;
-      newPositionY = groundPosition;
+      this.onPeakHeigh = false;
     }
 
-    if (this.controls.pressedKeys['Space'] && !this.isJumping) this.isJumping = true;
-    if (this.isJumping && !this.peak && newPositionY <= this.jumpHeight) newPositionY++;
-    if (newPositionY >= this.jumpHeight) this.peak = true;
-    if (this.peak) newPositionY--;
+    if (this.controls.pressedKeys['Space'] && !this.isJumping) {
+      this.isJumping = true;
 
-    this.camera.instance.position.y = newPositionY;
+      this.resources.items['jumpSound'].currentTime = 0;
+      this.resources.items['jumpSound'].play();
+    }
+    if (this.isJumping && !this.onPeakHeigh) updatedPositionY++;
+    if (updatedPositionY >= jumpHeight) this.onPeakHeigh = true;
+    if (this.onPeakHeigh) updatedPositionY--;
+
+    this.camera.instance.position.y = updatedPositionY;
   }
 }

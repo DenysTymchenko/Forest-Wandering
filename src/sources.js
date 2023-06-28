@@ -34,4 +34,10 @@ export default [
     type: 'audio',
     path: '/Audio/waterWalkSound.mp3',
   },
+
+  {
+    name: 'jumpSound',
+    type: 'audio',
+    path: '/Audio/jumpSound.mp3',
+  },
 ]
