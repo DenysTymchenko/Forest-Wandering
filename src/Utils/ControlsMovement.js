@@ -10,6 +10,7 @@ export default class ControlsMovement {
     // Jumping
     this.isJumping = false;
     this.onPeakHeight = false;
+    this.jumpSpeed = 1;
     this.fallSpeed = 0;
 
     // Movement
@@ -50,11 +51,12 @@ export default class ControlsMovement {
   jump() {
     let updatedPositionY = this.camera.instance.position.y;
     const groundPoint = this.experience.raycaster.intersect?.point.y;
-    const jumpTopPoint = groundPoint + 15;
+    const jumpTopPoint = groundPoint + 20;
 
     if (updatedPositionY <= groundPoint) {
       this.isJumping = false;
       this.onPeakHeight = false;
+      this.jumpSpeed = 1;
       this.fallSpeed = 0;
     }
 
@@ -64,7 +66,10 @@ export default class ControlsMovement {
       this.resources.items['jumpSound'].play();
     }
 
-    if (this.isJumping && !this.onPeakHeight) updatedPositionY++;
+    if (this.isJumping && !this.onPeakHeight) {
+      updatedPositionY += this.jumpSpeed;
+      this.jumpSpeed -= 0.05;
+    }
     if (updatedPositionY >= jumpTopPoint) this.onPeakHeight = true;
     if (this.onPeakHeight) {
       updatedPositionY -= this.fallSpeed;
